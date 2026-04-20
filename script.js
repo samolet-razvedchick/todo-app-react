@@ -11,10 +11,16 @@ container.addEventListener('click', event => {
 
 function addCard() {
     if (!input.value) return
+
     const newDiv = document.createElement('div')
     newDiv.classList.add('cards')
     newDiv.textContent = input.value
     input.before(newDiv)
+
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || []
+    tasks.push(input.value)
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+
     input.value = ''
 }
 
@@ -27,8 +33,25 @@ input.addEventListener('keydown', event => {
 
 butDelete.addEventListener('click', () => {
     const doneCards = document.querySelectorAll('.cards.done')
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || []
     doneCards.forEach(card => {
         if (card.classList.contains('done'))
             card.remove()
+        tasks = tasks.filter(task => task !== card.textContent)
     })
+    localStorage.setItem('tasks', JSON.stringify(tasks))
 })
+
+function renderTasks() {
+    let savedTasks = JSON.parse(localStorage.getItem('tasks'))
+    if (!savedTasks) return
+
+    savedTasks.forEach(task => {
+        const newDiv = document.createElement('div')
+        newDiv.classList.add('cards')
+        newDiv.textContent = task
+        input.before(newDiv)
+    })
+}
+
+renderTasks()
