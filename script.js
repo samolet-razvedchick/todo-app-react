@@ -3,6 +3,7 @@ const input = document.querySelector('.newEvent')
 const butEvent = document.querySelector('.butEvent')
 const butDelete = document.querySelector('.butDelete')
 const container = document.querySelector('.container')
+const toggle = document.getElementById('themeSwitch')
 
 container.addEventListener('click', event => {
     if (event.target.classList.contains('cards'))
@@ -55,3 +56,22 @@ function renderTasks() {
 }
 
 renderTasks()
+
+function changeTheme() {
+    let theme = localStorage.getItem('theme')
+    if (theme === 'dark') {
+        document.body.classList.remove('body-dark')
+        localStorage.setItem('theme', 'light')
+    } else {
+        document.body.classList.add('body-dark')
+        localStorage.setItem('theme', 'dark')
+    }
+}
+
+const savedTheme = localStorage.getItem('theme')
+if (savedTheme === 'dark') {
+    document.body.classList.add('body-dark')
+    toggle.checked = true
+}
+
+toggle.addEventListener('change', changeTheme)
