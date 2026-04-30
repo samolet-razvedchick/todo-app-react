@@ -8,7 +8,20 @@ const toggle = document.getElementById('themeSwitch')
 container.addEventListener('click', event => {
     if (event.target.classList.contains('cards'))
         event.target.classList.toggle('done')
+    // -- новое -- 
+    // начало
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || []
+        tasks = tasks.map(task => {
+            if (task.text === event.target.textContent) {
+                return {text : task.text, isDone : event.target.classList.contains('done')}
+            }
+            return task
+        })
+        localStorage.setItem('tasks', JSON.stringify(tasks))
+    // конец
 })
+
+
 
 function addCard() {
     if (!input.value) return
@@ -19,7 +32,7 @@ function addCard() {
     input.before(newDiv)
 
     let tasks = JSON.parse(localStorage.getItem('tasks')) || []
-    tasks.push(input.value)
+    tasks.push({text:input.value, isDone:false})  // было tasks.push(input.value)
     localStorage.setItem('tasks', JSON.stringify(tasks))
 
     input.value = ''
@@ -38,19 +51,21 @@ butDelete.addEventListener('click', () => {
     doneCards.forEach(card => {
         if (card.classList.contains('done'))
             card.remove()
-        tasks = tasks.filter(task => task !== card.textContent)
+        tasks = tasks.filter(task => task.text !== card.textContent)
     })
     localStorage.setItem('tasks', JSON.stringify(tasks))
 })
 
 function renderTasks() {
-    let savedTasks = JSON.parse(localStorage.getItem('tasks'))
+    let savedTasks = JSON.parse(localStorage.getItem('tasks')) || []
     if (!savedTasks) return
 
     savedTasks.forEach(task => {
         const newDiv = document.createElement('div')
         newDiv.classList.add('cards')
-        newDiv.textContent = task
+        if (task.isDone) 
+            newDiv.classList.add('done')
+        newDiv.textContent = task.text
         input.before(newDiv)
     })
 }
