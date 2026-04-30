@@ -33,9 +33,6 @@ a:hover{text-decoration: none;}
 ul li{list-style: none;}
 img{vertical-align: top;}
 
-/*h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
-/*--------------------*/
-
 .container {
 	width: 600px;
 	height: auto;
@@ -172,7 +169,7 @@ img{vertical-align: top;}
 
 
 body.body-dark {
-    background-color: #1a1a1a; /* Темный фон страницы */
+    background-color: #1a1a1a; 
 }
 
 .body-dark .container {
@@ -226,6 +223,6 @@ body.body-dark {
 
 .body-dark .cards.done {
     background-color: rgb(120, 165, 120);
-    color: rgb(29, 28, 28); /* Чтобы текст был читаемым на светлом фоне */
+    color: rgb(29, 28, 28); 
     text-decoration: line-through;
 }
